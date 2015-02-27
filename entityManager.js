@@ -45,16 +45,19 @@ var entityManager = {
             shouldDangle = false;
         }
         else if(shouldDangle) {
-            if (util.abs(dangleAngle) > util.abs(dangleLimit)) {
+            // Each step of the dangling
+            if (dangleIncreasing) dangleAngle += 1.5 * du;
+            else                  dangleAngle -= 1.5 * du;
+
+            var exceedPosLim = dangleIncreasing && dangleAngle > dangleLimit,
+                exceedNegLim = !dangleIncreasing && dangleAngle < dangleLimit;
+
+            if (exceedPosLim || exceedNegLim) {
                 // Reduce the maximum dangle angle for each swing.
                 var absDangleLimit = util.abs(dangleLimit) - 3.0;
                 dangleLimit = dangleIncreasing ? -absDangleLimit : absDangleLimit;
                 dangleIncreasing = !dangleIncreasing;
-                dangleAngle = -dangleLimit;
             }
-            // Each step of the dangling
-            if (dangleIncreasing) dangleAngle += 1.5 * du;
-            else                  dangleAngle -= 1.5 * du;
         }
         dangleTrans = (dangleAngle/100) * (2/3);
     },
