@@ -1,3 +1,5 @@
+// Common methods and attributes for all shapes.
+
 function Entity(descr) {
 	for (var property in descr)
 		this[property] = descr[property];

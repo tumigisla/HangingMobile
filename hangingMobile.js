@@ -21,6 +21,12 @@ var rotations = [0.0, 0.0, 0.0, 0.0],
 var internalRot = 0.0,
     internalRotSpeed = 0.5;
 
+var dangleAngle = 0,
+    dangleTrans = 0,
+    dangleLimit = 40,
+    dangleIncreasing = true,
+    shouldDangle = false;
+
 var setup = function() {
     canvas = document.getElementById("gl-canvas"),
     gl = WebGLUtils.setupWebGL(canvas);

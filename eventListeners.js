@@ -65,4 +65,9 @@ var addEventListeners = function() {
      document.getElementById("internalRotSlide").onchange = function() {
          internalRotSpeed = event.srcElement.value;
      };
+
+     // Dangle button
+     document.getElementById("dangleBtn").addEventListener("click", function() {
+        shouldDangle = true;
+     });
 };

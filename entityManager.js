@@ -31,6 +31,32 @@ var entityManager = {
             rotations[i] += rotSpeeds[i] * du;
 
         internalRot += internalRotSpeed * du;
+
+        this.maybeDangle(du);
+    },
+
+    maybeDangle : function(du) {
+        if (util.abs(dangleLimit) < 0.5 || !shouldDangle) {
+            // Dangle has almost faded out (or we shouldn't be dangling),
+            // so we init the values and stop the dangling.
+            dangleAngle = 0;
+            dangleTrans = 0;
+            dangleLimit = 30;
+            shouldDangle = false;
+        }
+        else if(shouldDangle) {
+            if (util.abs(dangleAngle) > util.abs(dangleLimit)) {
+                // Reduce the maximum dangle angle for each swing.
+                var absDangleLimit = util.abs(dangleLimit) - 3.0;
+                dangleLimit = dangleIncreasing ? -absDangleLimit : absDangleLimit;
+                dangleIncreasing = !dangleIncreasing;
+                dangleAngle = -dangleLimit;
+            }
+            // Each step of the dangling
+            if (dangleIncreasing) dangleAngle += 1.5 * du;
+            else                  dangleAngle -= 1.5 * du;
+        }
+        dangleTrans = (dangleAngle/100) * (2/3);
     },
 
     render : function() {
@@ -250,16 +276,27 @@ var entityManager = {
             cube.render(ctmBase);
         ctmBase = ctmStack.pop();
 
+
         // =================================
         //              SHAPES
         // =================================
 
         // Dodecahedron - First level
         ctmStack.push(g_ctm);
-            g_ctm = mult(g_ctm, rotate(rotations[0] + 120.0, [0, 1, 0]))
+            g_ctm = mult(g_ctm, rotate(rotations[0] + 120.0, [0, 1, 0]));
             g_ctm = mult(g_ctm, translate(0.86, 0.5, 0.0));
             g_ctm = mult(g_ctm, rotate(internalRot, [0, 1, 0]));
             dod.render(g_ctm);
+        g_ctm = ctmStack.pop();
+
+        // Octahedron - First level
+        ctmStack.push(g_ctm);
+            g_ctm = mult(g_ctm, rotate(rotations[0] - 120.0, [0, 1, 0]));
+            g_ctm = mult(g_ctm, translate(0.86, -0.05, 0.0));
+            g_ctm = mult(g_ctm, rotate(internalRot, [0, 1, 0]));
+            g_ctm = mult(g_ctm, rotate(dangleAngle, [0, 0, 1]));
+            g_ctm = mult(g_ctm, translate(dangleTrans, 0.0, 0.0));
+            oct.render(g_ctm);
         g_ctm = ctmStack.pop();
 
         // Dodecahedron - Second level
@@ -270,14 +307,6 @@ var entityManager = {
             g_ctm = mult(g_ctm, translate(0.6, 0.0, 0.0));
             g_ctm = mult(g_ctm, rotate(internalRot, [0, 1, 0]));
             dod.render(g_ctm);
-        g_ctm = ctmStack.pop();
-
-        // Octahedron - Second level
-        ctmStack.push(g_ctm);
-            g_ctm = mult(g_ctm, rotate(rotations[0] - 120.0, [0, 1, 0]));
-            g_ctm = mult(g_ctm, translate(0.86, -0.05, 0.0));
-            g_ctm = mult(g_ctm, rotate(internalRot, [0, 1, 0]));
-            oct.render(g_ctm);
         g_ctm = ctmStack.pop();
 
         // Octahedron - Second level (the lower second level)

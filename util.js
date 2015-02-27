@@ -20,6 +20,10 @@ var util = {
 	    result[2][2] = z;
 
 	    return result;
+	},
+
+	abs : function(x) {
+		return x < 0 ? -x : x;
 	}
 
 };

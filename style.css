@@ -1,4 +1,27 @@
-#wrapper {
-    float: left;
-    margin-right: 5em;
+body, #dangleBtn {
+    font-family : 'Raleway', sans-serif;
+}
+
+#masterWrapper {
+    margin: 0 auto;
+    max-width : 1000px;
+}
+
+#mixerWrapper {
+    margin-top : 5em;
+    float:right;
+}
+
+#gl-canvas {
+    border-radius : 10px/30px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+#dangleBtn {
+    font-size : 1em;
+    margin-top : 5em;
+    width : 10em;
+    height : 3em;
+    background-color : #3071a9;
+    color : white;
 }
