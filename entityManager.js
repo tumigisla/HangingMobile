@@ -36,6 +36,7 @@ var entityManager = {
     },
 
     maybeDangle : function(du) {
+        console.log(du);
         if (util.abs(dangleLimit) < 0.5 || !shouldDangle) {
             // Dangle has almost faded out (or we shouldn't be dangling),
             // so we init the values and stop the dangling.
@@ -59,7 +60,8 @@ var entityManager = {
                 dangleIncreasing = !dangleIncreasing;
             }
         }
-        dangleTrans = (dangleAngle/100) * (2/3);
+        // Transition relative to the dangle angle.
+        dangleTrans = (dangleAngle/100) * (2/3) * du;
     },
 
     render : function() {
