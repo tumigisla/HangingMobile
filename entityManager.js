@@ -76,12 +76,6 @@ var entityManager = {
         //          BRANCHES
         // ==================================
 
-        // Base(top) branch
-        var ctmBase = mat4();
-        ctmBase = mult(g_ctm, translate(0.0, 2.0, 0.0));
-        ctmBase = mult(ctmBase, util.scale4(0.02, 1.5, 0.02));
-        cube.render(ctmBase);
-
         // First level(tilting) branches
         ctmStack.push(g_ctm);
             g_ctm = mult(g_ctm, rotate(rotations[0], [0, 1, 0]));
@@ -163,121 +157,130 @@ var entityManager = {
             cube.render(g_ctm);
         g_ctm = ctmStack.pop();
 
+        // Base(top) branch
+        ctmStack.push(g_ctm);
+        g_ctm = mult(g_ctm, translate(0.0, 2.0, 0.0));
+        g_ctm = mult(g_ctm, util.scale4(0.02, 1.5, 0.02));
+        cube.render(g_ctm);
 
         // =================================
         //          MOBILE STRINGS
         // =================================
 
-        // Mobile strings, all built from the base transformation matrix,
-        // (the top branch) rendered usng the cube shape.
-        ctmStack.push(ctmBase);
-            ctmBase = mult(ctmBase, rotate(rotations[0], [0, 1, 0]));
-            ctmBase = mult(ctmBase, translate(43.0, -0.66, 0.2));
-            ctmBase = mult(ctmBase, util.scale4(0.5, 0.7, 0.5));
-            cube.render(ctmBase);
+
+        // Inherit from the base(top) branch
+        ctmStack.push(g_ctm);
+            g_ctm = mult(g_ctm, rotate(rotations[0], [0, 1, 0]));
+            g_ctm = mult(g_ctm, translate(43.0, -0.66, 0.2));
+            g_ctm = mult(g_ctm, util.scale4(0.5, 0.7, 0.5));
+            cube.render(g_ctm);
 
             // Connecting with huge branch
-            ctmStack.push(ctmBase);
-                ctmBase = mult(ctmBase, rotate(rotations[1], [0, 1, 0]));
-                ctmBase = mult(ctmBase, translate(60.0, -0.598, 0.0));
-                ctmBase = mult(ctmBase, util.scale4(1.0, 2.0, 1.0));
-                cube.render(ctmBase);
-            ctmBase = ctmStack.pop();
+            ctmStack.push(g_ctm);
+                g_ctm = mult(g_ctm, rotate(rotations[1], [0, 1, 0]));
+                g_ctm = mult(g_ctm, translate(60.0, -0.598, 0.0));
+                g_ctm = mult(g_ctm, util.scale4(1.0, 2.0, 1.0));
+                cube.render(g_ctm);
+            g_ctm = ctmStack.pop();
 
             // Connecting with huge branch
-            ctmStack.push(ctmBase);
-                ctmBase = mult(ctmBase, rotate(rotations[1], [0, 1, 0]));
-                ctmBase = mult(ctmBase, translate(-59.5, -0.705, 0.0));
-                ctmBase = mult(ctmBase, util.scale4(1.0, 2.5, 1.0));
-                cube.render(ctmBase);
+            ctmStack.push(g_ctm);
+                g_ctm = mult(g_ctm, rotate(rotations[1], [0, 1, 0]));
+                g_ctm = mult(g_ctm, translate(-59.5, -0.705, 0.0));
+                g_ctm = mult(g_ctm, util.scale4(1.0, 2.5, 1.0));
+                cube.render(g_ctm);
 
                 // Connecting with third level branch
-                ctmStack.push(ctmBase);
-                    ctmBase = mult(ctmBase, rotate(rotations[2], [0, 1, 0]));
-                    ctmBase = mult(ctmBase, translate(29.0, -0.297, 0.0));
-                    ctmBase = mult(ctmBase, util.scale4(1.0, 0.5, 1.0));
-                    cube.render(ctmBase);
-                ctmBase = ctmStack.pop();
+                ctmStack.push(g_ctm);
+                    g_ctm = mult(g_ctm, rotate(rotations[2], [0, 1, 0]));
+                    g_ctm = mult(g_ctm, translate(29.0, -0.297, 0.0));
+                    g_ctm = mult(g_ctm, util.scale4(1.0, 0.5, 1.0));
+                    cube.render(g_ctm);
+                g_ctm = ctmStack.pop();
 
                 // Connecting with third level branch
-                ctmStack.push(ctmBase);
-                    ctmBase = mult(ctmBase, rotate(rotations[2], [0, 1, 0]));
-                    ctmBase = mult(ctmBase, translate(-29.5, -0.435, 0.0));
-                    ctmBase = mult(ctmBase, util.scale4(1.0, 1.2, 1.0));
-                    cube.render(ctmBase);
-                ctmBase = ctmStack.pop();
+                ctmStack.push(g_ctm);
+                    g_ctm = mult(g_ctm, rotate(rotations[2], [0, 1, 0]));
+                    g_ctm = mult(g_ctm, translate(-29.5, -0.435, 0.0));
+                    g_ctm = mult(g_ctm, util.scale4(1.0, 1.2, 1.0));
+                    cube.render(g_ctm);
+                g_ctm = ctmStack.pop();
 
-            ctmBase = ctmStack.pop();
+            g_ctm = ctmStack.pop();
 
-        ctmBase = ctmStack.pop();
+        g_ctm = ctmStack.pop();
 
         // Mobile string, (the longest one, connecting with first level octahedron)
-        ctmStack.push(ctmBase);
-            ctmBase = mult(ctmBase, rotate(rotations[0] + 120.0, [0, 1, 0]));
-            ctmBase = mult(ctmBase, translate(43.0, -1.02, 0.2));
-            ctmBase = mult(ctmBase, util.scale4(0.5, 2.5, 0.5));
-            cube.render(ctmBase);
+        ctmStack.push(g_ctm);
+            g_ctm = mult(g_ctm, rotate(rotations[0] + 120.0, [0, 1, 0]));
+            g_ctm = mult(g_ctm, translate(43.0, -1.02, 0.2));
+            g_ctm = mult(g_ctm, util.scale4(0.5, 2.5, 0.5));
+            cube.render(g_ctm);
 
             // Connecting with smaller second level branch (smaller one)
-            ctmStack.push(ctmBase);
-                ctmBase = mult(ctmBase, rotate(rotations[1], [0, 1, 0]));
-                ctmBase = mult(ctmBase, translate(39.5, -0.258, 0.0));
-                ctmBase = mult(ctmBase, util.scale4(1.0, 0.3, 1.0));
-                cube.render(ctmBase);
-            ctmBase = ctmStack.pop();
+            ctmStack.push(g_ctm);
+                g_ctm = mult(g_ctm, rotate(rotations[1], [0, 1, 0]));
+                g_ctm = mult(g_ctm, translate(39.5, -0.258, 0.0));
+                g_ctm = mult(g_ctm, util.scale4(1.0, 0.3, 1.0));
+                cube.render(g_ctm);
+            g_ctm = ctmStack.pop();
 
             // Connecting with smaller second level branch (bigger one)
-            ctmStack.push(ctmBase);
-                ctmBase = mult(ctmBase, rotate(rotations[1], [0, 1, 0]));
-                ctmBase = mult(ctmBase, translate(-39.5, -0.32, 0.0));
-                ctmBase = mult(ctmBase, util.scale4(1.0, 0.6, 1.0));
-                cube.render(ctmBase);
+            ctmStack.push(g_ctm);
+                g_ctm = mult(g_ctm, rotate(rotations[1], [0, 1, 0]));
+                g_ctm = mult(g_ctm, translate(-39.5, -0.32, 0.0));
+                g_ctm = mult(g_ctm, util.scale4(1.0, 0.6, 1.0));
+                cube.render(g_ctm);
 
                 // Connecting with third level branch
-                ctmStack.push(ctmBase);
-                    ctmBase = mult(ctmBase, rotate(rotations[2], [0, 1, 0]));
-                    ctmBase = mult(ctmBase, translate(29.5, -0.295, 0.0));
-                    ctmBase = mult(ctmBase, util.scale4(1.0, 0.5, 1.0));
-                    cube.render(ctmBase);
-                ctmBase = ctmStack.pop();
+                ctmStack.push(g_ctm);
+                    g_ctm = mult(g_ctm, rotate(rotations[2], [0, 1, 0]));
+                    g_ctm = mult(g_ctm, translate(29.5, -0.295, 0.0));
+                    g_ctm = mult(g_ctm, util.scale4(1.0, 0.5, 1.0));
+                    cube.render(g_ctm);
+                g_ctm = ctmStack.pop();
 
                 // Connecting with third level branch
-                ctmStack.push(ctmBase);
-                    ctmBase = mult(ctmBase, rotate(rotations[2], [0, 1, 0]));
-                    ctmBase = mult(ctmBase, translate(-29.5, -0.435, 0.0));
-                    ctmBase = mult(ctmBase, util.scale4(1.0, 1.2, 1.0));
-                    cube.render(ctmBase);
+                ctmStack.push(g_ctm);
+                    g_ctm = mult(g_ctm, rotate(rotations[2], [0, 1, 0]));
+                    g_ctm = mult(g_ctm, translate(-29.5, -0.435, 0.0));
+                    g_ctm = mult(g_ctm, util.scale4(1.0, 1.2, 1.0));
+                    cube.render(g_ctm);
 
                     // Connecting with fourth level branch
-                    ctmStack.push(ctmBase);
-                        ctmBase = mult(ctmBase, rotate(rotations[3], [0, 1, 0]));
-                        ctmBase = mult(ctmBase, translate(29.5, -0.27, 0.0));
-                        ctmBase = mult(ctmBase, util.scale4(1.0, 0.35, 1.0));
-                        cube.render(ctmBase);
-                    ctmBase = ctmStack.pop();
+                    ctmStack.push(g_ctm);
+                        g_ctm = mult(g_ctm, rotate(rotations[3], [0, 1, 0]));
+                        g_ctm = mult(g_ctm, translate(29.5, -0.27, 0.0));
+                        g_ctm = mult(g_ctm, util.scale4(1.0, 0.35, 1.0));
+                        cube.render(g_ctm);
+                    g_ctm = ctmStack.pop();
 
                     // Connecting with fourth level branch
-                    ctmStack.push(ctmBase);
-                        ctmBase = mult(ctmBase, rotate(rotations[3], [0, 1, 0]));
-                        ctmBase = mult(ctmBase, translate(-29.5, -0.395, 0.0));
-                        ctmBase = mult(ctmBase, util.scale4(1.0, 1.0, 1.0));
-                        cube.render(ctmBase);
-                    ctmBase = ctmStack.pop();
+                    ctmStack.push(g_ctm);
+                        g_ctm = mult(g_ctm, rotate(rotations[3], [0, 1, 0]));
+                        g_ctm = mult(g_ctm, translate(-29.5, -0.395, 0.0));
+                        g_ctm = mult(g_ctm, util.scale4(1.0, 1.0, 1.0));
+                        cube.render(g_ctm);
+                    g_ctm = ctmStack.pop();
 
-                ctmBase = ctmStack.pop();
+                g_ctm = ctmStack.pop();
 
-            ctmBase = ctmStack.pop();
+            g_ctm = ctmStack.pop();
 
-        ctmBase = ctmStack.pop();
+        g_ctm = ctmStack.pop();
 
         // A seemingly lonely mobile string. Connects with the
         // first level octahedron.
-        ctmStack.push(ctmBase);
-            ctmBase = mult(ctmBase, rotate(rotations[0] - 120.0, [0, 1, 0]));
-            ctmBase = mult(ctmBase, translate(43.0, -0.82, 0.2));
-            ctmBase = mult(ctmBase, util.scale4(0.5, 1.5, 0.5));
-            cube.render(ctmBase);
-        ctmBase = ctmStack.pop();
+        ctmStack.push(g_ctm);
+            g_ctm = mult(g_ctm, rotate(rotations[0] - 120.0, [0, 1, 0]));
+            g_ctm = mult(g_ctm, translate(43.0, -0.82, 0.2));
+            g_ctm = mult(g_ctm, util.scale4(0.5, 1.5, 0.5));
+            cube.render(g_ctm);
+        g_ctm = ctmStack.pop();
+
+
+        // End of base top branch
+        g_ctm = ctmStack.pop();
 
 
         // =================================
