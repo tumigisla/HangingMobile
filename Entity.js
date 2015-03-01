@@ -6,8 +6,6 @@ function Entity(descr) {
 
 		this.points = [];
 		this.colors = [];
-
-		this.thetaRot = 0.0;
 }
 
 Entity.prototype.loadToGPU = function() {
@@ -36,14 +34,9 @@ Entity.prototype.useBuffer = function() {
     gl.enableVertexAttribArray(vPosition);
 };
 
-Entity.prototype.drawArrays = function(ctm, lo, hi) {
+Entity.prototype.drawArrays = function(ctm, i, n) {
 	gl.uniformMatrix4fv(mvLoc, false, flatten(ctm));
-    gl.drawArrays(gl.TRIANGLES, lo, hi);
-};
-
-
-Entity.prototype.update = function(du) {
-    this.thetaRot += (internalRotSpeed * du);
+    gl.drawArrays(gl.TRIANGLES, i, n);
 };
 
 Entity.prototype.render = function(ctm) {

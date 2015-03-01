@@ -4,7 +4,7 @@ body, #dangleBtn {
 
 #masterWrapper {
     margin: 0 auto;
-    max-width : 1000px;
+    max-width : 1100px;
 }
 
 #mixerWrapper {
@@ -24,4 +24,8 @@ body, #dangleBtn {
     height : 3em;
     background-color : #3071a9;
     color : white;
+}
+
+#navInstr {
+    margin-top : 5em;
 }

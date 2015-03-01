@@ -24,9 +24,6 @@ var entityManager = {
     },
 
     update : function(du) {
-        for (var i = 0; i < this._categories.length; i++)
-            this._categories[i].update(du);
-
         for (var i = 0; i < rotations.length; i++)
             rotations[i] += rotSpeeds[i] * du;
 
