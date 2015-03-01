@@ -34,6 +34,8 @@ var addEventListeners = function() {
 
     // Event listener for mousewheel
      window.addEventListener("mousewheel", function(e){
+         e.preventDefault();
+
          if( e.wheelDelta > 0.0 ) {
              zDist += 0.1;
          } else {
